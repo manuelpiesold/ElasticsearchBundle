@@ -403,6 +403,9 @@ class Manager
             $bulkResponse = $this->client->bulk($bulkQueries);
             $this->stopwatch('stop', 'bulk');
 
+            $this->bulkQueries = [];
+            $this->bulkCount = 0;
+
             if ($bulkResponse['errors']) {
                 throw new BulkWithErrorsException(
                     json_encode($bulkResponse),
@@ -411,9 +414,6 @@ class Manager
                     $bulkResponse
                 );
             }
-
-            $this->bulkQueries = [];
-            $this->bulkCount = 0;
 
             $this->stopwatch('start', 'refresh');
 
